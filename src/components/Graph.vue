@@ -173,12 +173,13 @@ export default {
 
 <style scoped>
 .graph{
-  width: 70%;
+  width: 400px;
   margin: 2%;
 }
 
 .container{
   display: flex;
   justify-content: center;
+  flex-wrap: wrap;
 }
 </style>
