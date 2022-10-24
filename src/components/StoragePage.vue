@@ -1,67 +1,51 @@
 <template>
   <h1>Calcule ton CO2 avec Storage</h1>
+  <br><br>
   <form @submit.prevent="elma();">
     <span style="color: red;" v-for="(error, index) in myErrors" :key="index">{{error}}<br></span>
-    <select style="width: 209px;" v-model="region" name="region">
+
+    <select class="form" v-model="region" name="region">
       <option v-if='!region' value="">Select your region</option>
       <option v-for='(region, index) in valid_regions' :key = 'index' :value=region>{{region}}</option>
     </select>
     <br/><br/>
-    <select style="width: 209px;" v-model="storage_type" name="storage_type">
+
+    <select class="form" style="width: 100px;" v-model="storage_type" name="storage_type">
       <option value = "ssd">ssd</option>
       <option value = "hdd">hdd</option>
     </select>
     <br/><br/>
-    <input style="width: 145px;" type="number" step="0.01" v-model="ndata" placeholder="data"/>&nbsp;
-    <select v-model="data_unit" name="data_unit">
+
+    <input class="form" type="number" step="0.01" v-model="ndata" placeholder="Enter your data consumption"/>&nbsp;
+    <select class="form" style="width: 100px;" v-model="data_unit" name="data_unit">
       <option value = "MB">MB</option>
       <option value = "GB">GB</option>
       <option value = "TB">TB</option>
     </select>
     <br/><br/>
-    <input style="width: 145px;" type="number" step="0.01" v-model="duration" placeholder="duration"/>&nbsp;
-    <select v-model="duration_unit" name="duration_unit">
+
+    <input class="form" type="number" step="0.01" v-model="duration" placeholder="Enter your usage duration"/>&nbsp;
+    <select class="form" style="width: 100px;" v-model="duration_unit" name="duration_unit">
       <option value = "day">day</option>
       <option value = "h">h</option>
       <option value = "m">min</option>
       <option value = "s">s</option>
       <option value = "ms">ms</option>
     </select>
+
     <br/><br/>
-    <input type="submit" value="Submit"/>
+    <input class="submitButton" type="submit" value="Submit"/>
   </form>
   <br>
   <div v-if="co2e">Ton CO2 est de {{co2e + " " + co2e_unit}}</div>
-  <div class="container">
-    <Bar class="graph"
-      :chart-options="{responsive: true}"
-      :chart-data="{
-          labels: [ 'Central US', 'France', 'East Asia' ],
-          datasets: [ { data: [...yourMom], backgroundColor:'#1B006A',	  label: 'Emission intensity for the HDD storage in g CO2e per terabyte-hour for the Azure data centers' } ]
-        }"
-      :chart-id="'bar-chart'"
-      :dataset-id-key="'label'"
-      :plugins="{}"
-      :css-classes="''"
-      :styles="{}"
-      :width="20"
-      :height="20"
-    />
-  </div>
+
 
 </template>
 
 <script>
-import { Bar } from 'vue-chartjs'
-import { Chart as ChartJS, Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale } from 'chart.js'
-
-ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale)
 
 export default {
   name: "StoragePage",
-  components: {
-    Bar
-  },
   data() {
     return {
       valid_regions: ['australia', 'australia_central', 'australia_central_2',
@@ -85,34 +69,10 @@ export default {
       myErrors: [],
       co2e: 0,
       co2e_unit: '',
-      yourMom: []
     }
   },
-  created() {
-    this.data('storage-provider_azure-region_central_us-type_hdd');
-    this.data('storage-provider_azure-region_france-type_hdd');
-    this.data('storage-provider_gcp-region_asia_east_2-type_hdd');
-  },
+
   methods: {
-    data(activity_id) {
-      fetch("https://beta3.api.climatiq.io/estimate", {
-          method: 'POST',
-          headers: {'Authorization': 'Bearer 3A0YPFGDWZMDZDJEH66B9Y2BYPX7'},
-          body: JSON.stringify({
-              "emission_factor": {"activity_id": activity_id},
-              "parameters": {
-                "data": 15,
-                "data_unit": "GB",
-                "time": 3600,
-                "time_unit": "m"
-              }
-          })
-      })
-      .then((res) => res.json())
-      .then((jsonRes) => {
-        this.yourMom.push(Number((jsonRes.co2e*1000).toPrecision(2)));
-      });
-    },
     lucoa() {
       fetch("https://beta3.api.climatiq.io/compute/azure/storage", {
         method: 'POST',

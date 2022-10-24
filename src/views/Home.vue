@@ -1,10 +1,10 @@
 <template>
-  <div>
-    <img style="position: absolute; top: 25%; right:2%; width: 400px;" src="../assets/earth_chanq.jpg"/>
+
+  <div style=" top: 50%; right: 60%; display: flex; flex-wrap: wrap; justify-content: center;" class="home">
+    <img style=" top: 40%; right:25%; width: 300px; padding:20px;" src="../assets/earth_chanq.jpg"/>
+    <img style="width: 300px; padding: 20px;" src="../assets/aquaq.gif"/>
   </div>
-  <div style="position: absolute; top: 50%; right: 45%;" class="home">
-    <img style="width: 200px;" src="../assets/aquaq.gif"/> <p style="font-size: x-large; font-weight: bold;"> Planet is dying :( </p>
-  </div>
+  <p style="font-size: x-large; font-weight: bold;"> Planet is dying :( </p>
 </template>
 
 <script>

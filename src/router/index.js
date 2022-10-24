@@ -21,6 +21,11 @@ const routes = [
     path: '/StoragePage',
     name: 'StoragePage',
     component: () => import('../components/StoragePage.vue')
+  },
+  {
+    path: '/Graph',
+    name: 'Graph',
+    component: () => import('../components/Graph.vue')
   }
 ]
 

@@ -1,12 +1,13 @@
 <template>
 
-  <img style="width:500px;" src="./assets/efreiq.png"/>
+  <img style="width:30%;" src="./assets/efreiq.png"/>
   <br><br>
-  <div id="nav">
+  <div class="nav" id="nav">
     <router-link class="button" to="/">Home</router-link>
     <router-link class="button" to="/MemoryPage">Memory CO2</router-link>
     <router-link class="button" to="/CPUPage">CPU CO2</router-link>
     <router-link class="button" to="/StoragePage">Storage CO2</router-link>
+    <router-link class="button" to="/Graph">Graph page</router-link>
   </div>
   <router-view/>
 </template>
@@ -37,6 +38,12 @@
   color: #2c3e50;
 }
 
+.nav{
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
 #nav {
   padding: 30px;
 }
@@ -50,13 +57,30 @@
   color: #42b983;
 }
 
-.graph{
-  width: 500px;
+.form{
+  border-radius: 20px;
+  width: 25%;
+  font-size: x-large;
+  box-shadow: inset 0px 0px 4px 3px lightgrey ;
+  border: none;
+  padding: 10px;
 }
 
-.container{
-  display: flex;
-  justify-content: center;
+.submitButton{
+  font-size: xx-large;
+  border: solid 1px;
+  margin: 10px;
+  padding: 10px;
+  text-decoration: none;
+  background-color: white;
+}
+
+.submitButton:hover{
+  background-color: lightgray;
+}
+
+.submitButton:active{
+  background-color: darkgrey;
 }
 
 </style>
