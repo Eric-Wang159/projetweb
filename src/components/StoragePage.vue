@@ -140,7 +140,7 @@ export default {
       if (this.ndata == null){
         this.myErrors.push("no data given");
       } else {
-        this.ndata < 0 && Number.isInteger(this.ndata) ? this.myErrors.push("bad data number") : null;
+        this.ndata < 0 ? this.myErrors.push("bad data number") : null;
       }
       if (this.duration == null){
         this.myErrors.push("no duration given");

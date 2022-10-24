@@ -7,7 +7,7 @@
         <option v-for='(region, index) in valid_regions' :key = 'index' :value=region>{{region}}</option>
       </select>
       <br/><br/>
-      <input style="width: 145px;" type="number" v-model="daata" placeholder="data"/>&nbsp;
+      <input style="width: 145px;" type="number" step="0.01" v-model="daata" placeholder="data"/>&nbsp;
       <select v-model="data_unit" name="data_unit">
         <option value = "MB">MB</option>
         <option value = "GB">GB</option>
@@ -132,7 +132,7 @@
         if (this.daata == null){
           this.myErrors.push("no data given");
         } else {
-          this.daata < 0 && Number.isInteger(this.daata) ? this.myErrors.push("bad data") : null;
+          this.daata < 0 ? this.myErrors.push("bad data") : null;
         }
         if (this.duration == null){
           this.myErrors.push("no duration given");
