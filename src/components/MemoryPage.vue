@@ -1,5 +1,6 @@
 <template>
     <h1>Calcule ton CO2 avec Memory</h1>
+  <br><br>
     <form @submit.prevent="elma();">
       <span style="color: red;" v-for="(error, index) in myErrors" :key="index">{{error}}<br></span>
 
