@@ -129,7 +129,6 @@ export default {
           .then((res) => res.json())
           .then((jsonRes) => {
             this.reset();
-            this.myErrors.push("Comment successfully sent (:");
             this.co2e = jsonRes.co2e;
             this.co2e_unit = jsonRes.co2e_unit;
           });
