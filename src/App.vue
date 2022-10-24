@@ -61,7 +61,7 @@
   border-radius: 20px;
   width: 25%;
   font-size: x-large;
-  box-shadow: inset 0px 0px 4px 3px lightgrey ;
+  box-shadow: inset 0px 0px 10px 3px lightgrey ;
   border: none;
   padding: 10px;
 }
