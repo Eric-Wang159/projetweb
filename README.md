@@ -1,5 +1,13 @@
 # projetweb
 
+## Authors
+```
+Eric WANG
+Arthur GOBILLIARD
+Antoine VILLARET
+Thomas CASASNOVAS
+```
+
 ## Project setup
 ```
 npm install
