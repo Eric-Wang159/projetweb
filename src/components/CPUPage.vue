@@ -2,30 +2,35 @@
   <h1>Calcule ton CO2 avec CPU</h1>
   <br><br>
   <form @submit.prevent="elma();">
-    <span style="color: red;" v-for="(error, index) in myErrors" :key="index">{{error}}<br></span>
+    <span style="color: red;" v-for="(error, index) in myErrors" :key="index">{{error}}<br><br></span><br>
+    <div class="bigContainer">
+      <div class="formContainer">
+        <select class="form" v-model="region" name="region">
+          <option v-if='!region' value="">Select your region</option>
+          <option v-for='(region, index) in valid_regions' :key = 'index' :value=region>{{region}}</option>
+        </select>
+        <br/> <br/><br/>
 
-    <select class="form" v-model="region" name="region">
-      <option v-if='!region' value="">Select your region</option>
-      <option v-for='(region, index) in valid_regions' :key = 'index' :value=region>{{region}}</option>
-    </select>
-    <br/> <br/>
+        <input class="form" type="number" v-model="cpu_count" placeholder="Enter your number of CPUs"/><br/> <br/><br/>
+        <input class="form" type="number" step="0.01" v-model="cpu_load" placeholder="Enter your number of CPU load"/><br/> <br/><br/>
+        <input class="form" type="number" step="0.1" v-model="duration" placeholder="Enter your usage duration"/>&nbsp;
 
-    <input class="form" type="number" v-model="cpu_count" placeholder="Enter your number of CPUs"/><br/> <br/>
-    <input class="form" type="number" step="0.01" v-model="cpu_load" placeholder="Enter your number of CPU load"/><br/> <br/>
-    <input class="form" type="number" step="0.01" v-model="duration" placeholder="Enter your usage duration"/>&nbsp;
-
-    <select class="form" style="width: 100px;" v-model="duration_unit" name="duration_unit">
-      <option value = "day">day</option>
-      <option value = "h">h</option>
-      <option value = "m">min</option>
-      <option value = "s">s</option>
-      <option value = "ms">ms</option>
-    </select>
-    <br/> <br/>
-    <input class="submitButton" type="submit" value="Submit"/>
+        <select class="form" style="width: 100px;" v-model="duration_unit" name="duration_unit">
+          <option value = "day">day</option>
+          <option value = "h">h</option>
+          <option value = "m">min</option>
+          <option value = "s">s</option>
+          <option value = "ms">ms</option>
+        </select>
+        <br/> <br/><br/>
+        <div class="buttonContainer">
+          <input class="submitButton" type="submit" value="Submit"/>
+        </div>
+      </div>
+    </div>
   </form>
   <br>
-  <div v-if="co2e">Ton CO2 est de {{co2e + " " + co2e_unit}}</div>
+  <div v-if="co2e" style="font-size: x-large; font-weight: bold;">Ton CO2 est de {{co2e + " " + co2e_unit}}</div>
 
 </template>
 
@@ -82,20 +87,24 @@ export default {
     elma() {
       this.myErrors = [];
       !this.region ? this.myErrors.push("No region given") : null;
-      if (this.cpu_count == null){
-        this.myErrors.push("no cpu count given");
+      if (this.cpu_count == null || this.cpu_count == 0){
+        this.myErrors.push("No cpu count given");
+      } else if(this.cpu_count < 0 && Number.isInteger(this.cpu_count)) {
+         this.myErrors.push("CPU count number must be an integer and positive");
       } else {
-        this.cpu_count < 0 && Number.isInteger(this.cpu_count) ? this.myErrors.push("bad cpu count") : null;
+        this.cpu_count > 1e+300 ? this.myErrors.push("CPU count number too high") : null;
       }
-      if (this.cpu_load == null){
-        this.myErrors.push("no cpu load given");
+      if (this.cpu_load == null || this.cpu_load == 0){
+        this.myErrors.push("No cpu load given");
       } else {
-        1 >= this.cpu_load && this.cpu_load >= 0  ? null : this.myErrors.push("bad cpu load");
+        1 >= this.cpu_load && this.cpu_load >= 0  ? null : this.myErrors.push("CPU load must be between 0 and 1");
       }
-      if (this.duration == null){
-        this.myErrors.push("no duration given");
+      if (this.duration == null || this.duration == 0){
+        this.myErrors.push("No duration given");
+      } else if (this.duration < 0 ) {
+        this.myErrors.push("Duration cannot be negative");
       } else {
-        this.duration < 0 ? this.myErrors.push("duration cannot be negative") : null;
+        this.duration > 1e+300 ? this.myErrors.push("Duration number too high") : null;
       }
       
       !this.myErrors.length ? this.lucoa() : null;

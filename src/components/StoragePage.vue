@@ -2,42 +2,47 @@
   <h1>Calcule ton CO2 avec Storage</h1>
   <br><br>
   <form @submit.prevent="elma();">
-    <span style="color: red;" v-for="(error, index) in myErrors" :key="index">{{error}}<br></span>
+    <span style="color: red;" v-for="(error, index) in myErrors" :key="index">{{error}}<br><br></span><br>
+    <div class="bigContainer">
+      <div class="formContainer">
+        <select class="form" v-model="region" name="region">
+          <option v-if='!region' value="">Select your region</option>
+          <option v-for='(region, index) in valid_regions' :key = 'index' :value=region>{{region}}</option>
+        </select>
+        <br/><br/><br/>
 
-    <select class="form" v-model="region" name="region">
-      <option v-if='!region' value="">Select your region</option>
-      <option v-for='(region, index) in valid_regions' :key = 'index' :value=region>{{region}}</option>
-    </select>
-    <br/><br/>
+        <select class="form" v-model="storage_type" name="storage_type">
+          <option v-if='!storage_type' value="">Select your storage type</option>
+          <option v-for='(storage_type, index) in valid_storage_type' :key = 'index' :value=storage_type>{{storage_type}}</option>
+        </select>
+        <br/><br/><br/>
 
-    <select class="form" style="width: 100px;" v-model="storage_type" name="storage_type">
-      <option value = "ssd">ssd</option>
-      <option value = "hdd">hdd</option>
-    </select>
-    <br/><br/>
+        <input class="form" type="number" step="0.01" v-model="ndata" placeholder="Enter your data consumption"/>&nbsp;
+        <select class="form" style="width: 100px;" v-model="data_unit" name="data_unit">
+          <option value = "MB">MB</option>
+          <option value = "GB">GB</option>
+          <option value = "TB">TB</option>
+        </select>
+        <br/><br/><br/>
 
-    <input class="form" type="number" step="0.01" v-model="ndata" placeholder="Enter your data consumption"/>&nbsp;
-    <select class="form" style="width: 100px;" v-model="data_unit" name="data_unit">
-      <option value = "MB">MB</option>
-      <option value = "GB">GB</option>
-      <option value = "TB">TB</option>
-    </select>
-    <br/><br/>
+        <input class="form" type="number" step="0.1" v-model="duration" placeholder="Enter your usage duration"/>&nbsp;
+        <select class="form" style="width: 100px;" v-model="duration_unit" name="duration_unit">
+          <option value = "day">day</option>
+          <option value = "h">h</option>
+          <option value = "m">min</option>
+          <option value = "s">s</option>
+          <option value = "ms">ms</option>
+        </select>
 
-    <input class="form" type="number" step="0.01" v-model="duration" placeholder="Enter your usage duration"/>&nbsp;
-    <select class="form" style="width: 100px;" v-model="duration_unit" name="duration_unit">
-      <option value = "day">day</option>
-      <option value = "h">h</option>
-      <option value = "m">min</option>
-      <option value = "s">s</option>
-      <option value = "ms">ms</option>
-    </select>
-
-    <br/><br/>
-    <input class="submitButton" type="submit" value="Submit"/>
+        <br/><br/><br/>
+        <div class="buttonContainer">
+          <input class="submitButton" type="submit" value="Submit"/>
+        </div>
+      </div>
+    </div>
   </form>
-  <br>
-  <div v-if="co2e">Ton CO2 est de {{co2e + " " + co2e_unit}}</div>
+  <br><br>
+  <div v-if="co2e" style="font-size: x-large; font-weight: bold;">Ton CO2 est de {{co2e + " " + co2e_unit}}</div>
 
 
 </template>
@@ -65,7 +70,8 @@ export default {
       duration: null,
       ndata: null,
       data_unit: 'GB',
-      storage_type: 'ssd',
+      valid_storage_type: ['ssd', 'hdd'],
+      storage_type: '',
       myErrors: [],
       co2e: 0,
       co2e_unit: '',
@@ -96,15 +102,19 @@ export default {
     elma() {
       this.myErrors = [];
       !this.region ? this.myErrors.push("No region given") : null;
-      if (this.ndata == null){
-        this.myErrors.push("no data given");
+      if (this.ndata == null || this.ndata == 0){
+        this.myErrors.push("No data given");
+      } else if(this.ndata < 0) {
+        this.myErrors.push("Data cannot be negative");
       } else {
-        this.ndata < 0 ? this.myErrors.push("bad data number") : null;
+        this.ndata > 1e+300 ? this.myErrors.push("Data number too high") : null;
       }
-      if (this.duration == null){
-        this.myErrors.push("no duration given");
+      if (this.duration == null || this.duration == 0){
+        this.myErrors.push("No duration given");
+      } else if(this.duration < 0) {
+         this.myErrors.push("Duration cannot be negative");
       } else {
-        this.duration < 0 ? this.myErrors.push("duration cannot be negative") : null;
+        this.duration > 1e+300 ? this.myErrors.push("Duration number too high") : null;
       }
 
       !this.myErrors.length ? this.lucoa() : null;

@@ -59,11 +59,29 @@
 
 .form{
   border-radius: 20px;
-  width: 25%;
+  width: 75%;
   font-size: x-large;
   box-shadow: inset 0px 0px 10px 3px lightgrey ;
   border: none;
   padding: 10px;
+
+}
+
+.bigContainer{
+  display: flex;
+  justify-content: center;
+}
+
+.formContainer{
+  text-align: left !important;
+  width: 40%;
+  box-shadow: 0px 0px 10px 3px darkgrey;
+  border-radius: 15px;
+  padding: 40px;
+}
+
+.buttonContainer{
+  text-align: center;
 }
 
 .submitButton{
@@ -73,6 +91,7 @@
   padding: 10px;
   text-decoration: none;
   background-color: white;
+  align-self: center;
 }
 
 .submitButton:hover{

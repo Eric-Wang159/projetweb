@@ -3,8 +3,9 @@
   <div style=" top: 50%; right: 60%; display: flex; flex-wrap: wrap; justify-content: center; " class="home">
     <img style=" top: 40%; right:25%; width: 300px; padding:20px;" src="../assets/earth_chanq.jpg"/>
     <img style=" height:300px; padding: 20px; align-self: center;" src="../assets/aquaq.gif"/>
+    <img style="height: 300px; padding: 20px; align-self: center; " src="../assets/simularbre.png"/>
   </div>
-  <p style="font-size: x-large; font-weight: bold;"> Planet is dying :( </p>
+  <p style="font-size: x-large; font-weight: bold;"> Planet and Simularbre are dying :( </p>
 </template>
 
 <script>
